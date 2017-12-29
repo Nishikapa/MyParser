@@ -1,0 +1,20 @@
+﻿// コメント行です
+
+#PRINT テスト０
+
+#FOR 2
+
+#PRINT テスト１
+
+#FOR 3
+
+#PRINT テスト２
+
+#ENDFOR
+
+#ENDFOR
+
+#PRINT テスト３
+
+#PRINT テスト４
+
