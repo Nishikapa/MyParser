@@ -5,17 +5,17 @@ namespace MyParser
 {
     public static partial class Util
     {
-        private delegate Func<T1> Recursive1<T1>(Recursive1<T1> f);
-        private delegate Func<T1, T2> Recursive2<T1, T2>(Recursive2<T1, T2> f);
+        private delegate Func<T1> Recursive<T1>(Recursive<T1> f);
+        private delegate Func<T1, T2> Recursive<T1, T2>(Recursive<T1, T2> f);
 
-        public static T1 YConv<T1>(this YCONV1<T1> input) =>
-            ((Recursive1<T1>)
+        public static T1 YConv<T1>(this YCONV<T1> input) =>
+            ((Recursive<T1>)
             (f => () => input(f(f))()))
             (f => () => input(f(f))())
             ();
 
-        public static T2 YConv<T1, T2>(this YCONV2<T1, T2> input, T1 t1) =>
-            ((Recursive2<T1, T2>)
+        public static T2 YConv<T1, T2>(this YCONV<T1, T2> input, T1 t1) =>
+            ((Recursive<T1, T2>)
             (f => (_t1) => input(f(f))(_t1)))
             (f => (_t1) => input(f(f))(_t1))
             (t1);
@@ -38,11 +38,11 @@ namespace MyParser
                  stm2 => stm1.成功(false)
              );
 
-        public static パーサー<T, (bool result, D data)> ToGetResultAndData<T, D>(this パーサー<T, D> parser) => stm1 =>
-              parser(stm1).GetResult(
-                  (stm2, data2) => stm2.成功((true, data2)),
-                  stm2 => stm1.成功((false, default(D)))
-              );
+        public static パーサー<T, (bool result, D data)> ToGetResultAndData<T, D>(this パーサー<T, D> parser, D data = default) => stm1 =>
+            parser(stm1).GetResult(
+                (stm2, data2) => stm2.成功((true, data2)),
+                stm2 => stm1.成功((false, data))
+            );
 
         public static パーサー<T, パーサー用ストリーム<T>> GetCurrentStm<T>() => stm1 => stm1.成功(stm1);
 

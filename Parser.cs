@@ -11,8 +11,8 @@ namespace MyParser
         );
     }
     public delegate IResult<T, D> パーサー<T, out D>(パーサー用ストリーム<T> stream);
-    public delegate Func<T1> YCONV1<T1>(Func<T1> input);
-    public delegate Func<T1, T2> YCONV2<T1, T2>(Func<T1, T2> input);
+    public delegate Func<T1> YCONV<T1>(Func<T1> input);
+    public delegate Func<T1, T2> YCONV<T1, T2>(Func<T1, T2> input);
 
     public readonly struct IResult実装<T, D> : IResult<T, D>
     {

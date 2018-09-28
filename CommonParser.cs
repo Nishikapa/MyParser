@@ -32,7 +32,7 @@ namespace MyParser
 
         public static パーサー<T, IEnumerable<D>> 指定順で全て<T, D>(this IEnumerable<パーサー<T, D>> parsers)
         {
-            YCONV2<IEnumerable<パーサー<T, D>>, パーサー<T, IEnumerable<D>>> lambda =
+            YCONV<IEnumerable<パーサー<T, D>>, パーサー<T, IEnumerable<D>>> lambda =
                 f => ps =>
                     !ps.Any() ?
                         Enumerable.Empty<D>().Success(default(T)) :
@@ -45,7 +45,7 @@ namespace MyParser
 
         public static パーサー<T, IEnumerable<D>> 指定区切りでの繰り返し<T, D, S>(this パーサー<T, D> parser, パーサー<T, S> sep)
         {
-            YCONV1<パーサー<T, IEnumerable<D>>> lambda =
+            YCONV<パーサー<T, IEnumerable<D>>> lambda =
                 f => () =>
                     from セパレータの取得に成功したか in sep.ToGetResult()
                     let ignore = !セパレータの取得に成功したか
@@ -62,7 +62,7 @@ namespace MyParser
 
         public static パーサー<T, D> 何れか一つ<T, D>(IEnumerable<パーサー<T, D>> parsers)
         {
-            YCONV2<IEnumerable<パーサー<T, D>>, パーサー<T, D>> lambda =
+            YCONV<IEnumerable<パーサー<T, D>>, パーサー<T, D>> lambda =
                 f => ps =>
                     !ps.Any() ?
                         (stm1 => stm1.失敗(default(D))) :
@@ -78,7 +78,7 @@ namespace MyParser
 
         public static パーサー<T, IEnumerable<D>> 零回以上の繰り返し<T, D>(this パーサー<T, D> parser)
         {
-            YCONV1<パーサー<T, IEnumerable<D>>> lambda =
+            YCONV<パーサー<T, IEnumerable<D>>> lambda =
                 f => () =>
                 (
                     from head in parser
