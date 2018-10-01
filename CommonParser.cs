@@ -38,7 +38,7 @@ namespace MyParser
                         Enumerable.Empty<D>().Success(default(T)) :
                         from head in ps.First()
                         from tail in f(ps.Skip(1))
-                        select (new[] { head }).Concat(tail);
+                        select head.Concat(tail);
 
             return lambda.YConv(parsers);
         }
@@ -51,13 +51,13 @@ namespace MyParser
                     let ignore = !セパレータの取得に成功したか
                     from head in parser.SkipIf(ignore)
                     from tail in f().SkipIf(ignore)
-                    select ignore ? Enumerable.Empty<D>() : new[] { head }.Concat(tail);
+                    select ignore ? Enumerable.Empty<D>() : head.Concat(tail);
 
             return
                 from head in parser.ToGetResultAndData() //  最初のparserの失敗は成功に倒す
                 let ignore = !head.result
                 from tail in lambda.YConv().SkipIf(ignore)
-                select ignore ? Enumerable.Empty<D>() : new[] { head.data }.Concat(tail);
+                select ignore ? Enumerable.Empty<D>() : head.data.Concat(tail);
         }
 
         public static パーサー<T, D> 何れか一つ<T, D>(IEnumerable<パーサー<T, D>> parsers)
@@ -83,7 +83,7 @@ namespace MyParser
                 (
                     from head in parser
                     from tail in f()
-                    select new[] { head }.Concat(tail)
+                    select head.Concat(tail)
                 ).IfFailedReturn(Enumerable.Empty<D>());
 
             return lambda.YConv();
@@ -92,7 +92,7 @@ namespace MyParser
         public static パーサー<T, IEnumerable<D>> 一回以上の繰り返し<T, D>(this パーサー<T, D> parser) =>
             from v1 in parser
             from v2 in parser.零回以上の繰り返し()
-            select new[] { v1 }.Concat(v2);
+            select v1.Concat(v2);
 
         public static パーサー<T, IEnumerable<D>> 指定回数の繰り返し<T, D>(this パーサー<T, D> parser, int count) =>
             Enumerable.Repeat(parser, count).指定順で全て();

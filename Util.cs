@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyParser
 {
@@ -46,10 +47,12 @@ namespace MyParser
 
         public static パーサー<T, パーサー用ストリーム<T>> GetCurrentStm<T>() => stm1 => stm1.成功(stm1);
 
-        public static パーサー<T, D> SkipIf<T, D>(this パーサー<T, D> parser, bool ignore, D data = default) =>
-            ignore ? data.Success<T, D>() : parser;
+        public static パーサー<T, D> SkipIf<T, D>(this パーサー<T, D> parser, bool skip, D data = default) =>
+            skip ? data.Success<T, D>() : parser;
 
         public static IResult<T, D> 成功<T, D>(this in パーサー用ストリーム<T> s, D d) => IResult実装<T, D>.成功(s, d);
         public static IResult<T, D> 失敗<T, D>(this in パーサー用ストリーム<T> s, D _ = default) => IResult実装<T, D>.失敗(s);
+
+        public static IEnumerable<TSource> Concat<TSource>(this TSource first, IEnumerable<TSource> second) => new[] { first }.Concat(second);
     }
 }

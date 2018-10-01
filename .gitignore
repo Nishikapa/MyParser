@@ -5,3 +5,9 @@
 /.vs/ProjectSettings.json
 /.vs
 /obj
+/bin/Debug/MyParser.exe
+/bin/Debug/MyParser.exe.config
+/bin/Debug/MyParser.pdb
+/bin/Release/MyParser.exe
+/bin/Release/MyParser.exe.config
+/bin/Release/MyParser.pdb
